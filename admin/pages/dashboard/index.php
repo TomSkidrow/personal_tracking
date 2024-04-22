@@ -2,12 +2,6 @@
 include_once('../authen.php');
 $emp_id = $_SESSION['emp_id']; 
 
-
-
-$sql_req = "SELECT * FROM tb_request";
-$result_req = $conn->query($sql_req);
-
-
 $type_count1 = "SELECT * FROM tb_request WHERE created_by = ".$emp_id." AND req_type_id = 1 ";
 $result_type_count1 = $conn->query($type_count1);
 $type_count2 = "SELECT * FROM tb_request WHERE created_by = ".$emp_id." AND req_type_id = 2 ";

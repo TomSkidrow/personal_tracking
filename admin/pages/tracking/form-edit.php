@@ -4,13 +4,27 @@
     header('Location:index.php');
   }
 
-  $created_by = $_SESSION['emp_id']; 
-  $sql = "SELECT * FROM `tb_employee` WHERE `id` = '".$_GET['id']."' ";
+  //$created_by = $_SESSION['emp_id']; 
+  $sql = "SELECT *,a.id AS req_id 
+                  FROM tb_request a
+                      INNER JOIN tb_employee b 
+                        ON a.emp_id = b.emp_id 
+                          WHERE a.id = '".$_GET['id']."' ";
   $result = $conn->query($sql);
   $row = $result->fetch_assoc();
-  //$arr_tag = explode(',', $row['tag']);
+  
+  $sql_tracking = "SELECT *,b.id AS tracking_id 
+                  FROM tb_request a 
+                        INNER JOIN tb_tracking b 
+                        ON a.id = b.request_id
+                        INNER JOIN tb_status c 
+                        ON b.status_id = c.id 
+                              WHERE b.request_id = '".$_GET['id']."' ";
+  $result_tracking = $conn->query($sql_tracking); 
 
-  $sql_select = "SELECT id, req_type_name FROM tb_request_type";
+
+
+  $sql_select = "SELECT id, status_name FROM tb_status WHERE req_type_id = '".$row['req_type_id']."'";
   $result_select = $conn->query($sql_select);
 ?>
 <!DOCTYPE html>
@@ -18,7 +32,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Request Management</title>
+  <title>Tracking Management</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Favicons -->
@@ -90,15 +104,19 @@
               <label for="subject">ข้อมูลพนักงาน</label>
               <input type="text" disabled class="form-control" id="subject" name="subject" placeholder="Subject" value="<?php echo $row['emp_id']." ".'|'; ?> &nbsp;<?php echo $row['names']; ?> &nbsp; <?php echo $row['position']; ?> &nbsp; <?php echo $row['office']; ?>" required>
             </div>
+            <div class="form-group">
+              <label for="subject">ข้อมูลคำร้อง</label>
+              <input type="text" disabled class="form-control" id="subject" name="subject" placeholder="Subject" value="<?php echo $row['detail']; ?> " required>
+            </div>
 
             <div class="form-group">
               <label>ประเภทคำร้อง</label>
-              <select class="form-control select2" name="req_type_id" style="width: 100%;">
+              <select class="form-control select2" name="status_id" style="width: 100%;">
                   <?php 
                         echo "<option value='' disabled selected></option>";
                         if ($result_select->num_rows > 0) {
                             while($row_select = $result_select->fetch_assoc()) {
-                                echo "<option value='". $row_select["id"] ."'>" . $row_select["req_type_name"] . "</option>";
+                                echo "<option value='". $row_select["id"] ."'>" . $row_select["status_name"] . "</option>";
                             }
                         } else {
                             echo "<option value=''>No options available</option>";
@@ -113,9 +131,8 @@
               <textarea class="form-control" id="detail" name="detail" placeholder="กรอกรายละเอียด" rows="5" cols="80" required></textarea>
             </div>
 
-            <input type="hidden" name="emp_id" value="<?php echo $row['emp_id']; ?>">
-            <input type="hidden" name="created_by" value="<?php echo $created_by; ?>">
-
+            <input type="hidden" name="req_id" value="<?php echo $row['req_id']; ?>">
+            
           </div>
           <div class="card-footer">
             <button type="submit" name="submit" class="btn btn-primary">บันทึกข้อมูล</button>
@@ -124,8 +141,55 @@
       </div>    
     </section>
     <!-- /.content -->
+    <section class="col-lg-12">
+
+<!-- DIRECT CHAT -->
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title">ข้อมูล Tracking ทั้งหมด</h3>
   </div>
-  <!-- /.content-wrapper -->
+  <!-- /.card-header -->
+  <div class="card-body table-responsive p-0">
+    <table class="table table-hover">
+    <tr>
+        <th>No.</th>
+        <th>สถานะงาน</th>
+        <th>รายละเอียด</th>
+        <th>สร้างเมื่อ</th>
+        <th></th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <?php 
+      $num = 0;
+      while($row = $result_tracking->fetch_assoc()){
+        $num++;
+    ?>
+    <tr>
+        <td><?php echo $num; ?></td>
+        <td><?php echo $row['status_name']; ?></td>
+        <td><?php echo $row['tracking_detail']; ?></td>
+        <td><?php echo date("d/m/Y H:i:s", strtotime($row['created_at'])); ?></td>
+        <td>
+      <a href="#" onclick="deleteItem(<?php echo $row['tracking_id']; ?>);" class="btn btn-sm btn-danger">
+        <i class="fas fa-trash-alt"></i>
+      </a>
+    </td>
+        
+    </tr>
+    <?php } ?>
+    </tbody>
+    </table>
+  </div>
+  <!-- /.card-body -->
+</div>
+<!-- /.card -->
+</section>
+
+
+  </div>
+  <!-- /.content-wrapper -->tb_employee
 
   <!-- footer -->
   <?php include_once('../includes/footer.php') ?>
@@ -165,23 +229,12 @@
       "autoWidth": true
     });
 
-    $('.custom-file-input').on('change', function(){
-      var size = this.files[0].size / 1024 / 1024
-      if(size.toFixed(2) > 2){
-        alert('to big, maximum is 2MB')
-      } else {
-        var fileName = $(this).val().split('\\').pop()
-        $(this).siblings('.custom-file-label').html(fileName)
-        if (this.files[0]) {
-            var reader = new FileReader()
-            $('.figure').addClass('d-block')
-            reader.onload = function (e) {
-                $('#imgUpload').attr('src', e.target.result);
-            }
-            reader.readAsDataURL(this.files[0])
-        }
-      }
-    })
+    function deleteItem (id) { 
+    if( confirm('Are you sure, you want to delete this item?') == true){
+      window.location=`delete.php?id=${id}`;
+      //window.location='delete.php?id='+id;
+    }
+  };
 
     //Initialize Select2 Elements
     $('.select2').select2()
