@@ -26,16 +26,17 @@ $name = $array[$key + 1];
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="#" class="brand-link">
-      <span class="brand-text font-weight-light text-center d-block">Admin Management</span>
+      <span class="brand-text font-weight-light text-center d-block">HR-T-NE2</span>
     </a>
 
     <!-- Sidebar -->
     <div class="sidebar">
       <!-- Sidebar user (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <img src="../../dist/img/avatar.png" class="img-circle elevation-2" alt="User Image">
+      <div class="image">
+          <img src="../../dist/img/avatar6.png" class="img-circle elevation-2" alt="User Image">
         </div>
+
         <div class="info">
           <a href="#" class="d-block"><?php echo $_SESSION['names']; ?></a>
         </div>
@@ -59,23 +60,18 @@ $name = $array[$key + 1];
           </li>
           <?php } ?>
           <li class="nav-item">
-            <a href="../articles" class="nav-link <?php echo $name == 'articles' ? 'active': '' ?>">
+            <a href="../request" class="nav-link <?php echo $name == 'request' ? 'active': '' ?>">
               <i class="fas fa-chalkboard-teacher nav-icon"></i>
-              <p>Articles</p>
+              <p>คำร้อง</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="../contacts" class="nav-link <?php echo $name == 'contacts' ? 'active': '' ?>">
-              <i class="fas fa-chalkboard-teacher nav-icon"></i>
-              <p>Contacts <span class="badge badge-light" id="notiScore"></span></p>
+            <a href="../tracking" class="nav-link <?php echo $name == 'tracking' ? 'active': '' ?>">
+              <i class="fas fa-regular fa-clock nav-icon"></i>
+              <p>การดำเนินการ</p>
             </a>
           </li>
-          <li class="nav-item">
-            <a href="../userlogs" class="nav-link <?php echo $name == 'userlogs' ? 'active': '' ?>">
-              <i class="fas fa-chalkboard-teacher nav-icon"></i>
-              <p>Userlogs <span class="badge badge-light" id="notiScore"></span></p>
-            </a>
-          </li>
+
           <li class="nav-header">Account Settings</li>
           <li class="nav-item">
             <a href="../../logout.php" class="nav-link">
