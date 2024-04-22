@@ -35,7 +35,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Login</title>
+  <title>ระบบติดตามงานด้านบุคคล</title>
   <!-- Favicons -->
   <link rel="apple-touch-icon" sizes="180x180" href="dist/img/favicons/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="dist/img/favicons/favicon-32x32.png">
@@ -61,12 +61,12 @@
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href="#"><b>Admin</b></a>
+    <a href="#"><b>ระบบติดตามงานด้านบุคคล</b></a>
   </div>
   <!-- /.login-logo -->
   <div class="card">
     <div class="card-body login-card-body">
-      <p class="login-box-msg">Login to start your Admin</p>
+      <p class="login-box-msg">Login เข้าระบบโดย ผบก.</p>
 
       <form action="" method="post">
 

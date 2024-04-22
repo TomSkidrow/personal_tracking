@@ -10,11 +10,18 @@ $result_req = $conn->query($sql_req);
 
 $type_count1 = "SELECT * FROM tb_request WHERE created_by = ".$emp_id." AND req_type_id = 1 ";
 $result_type_count1 = $conn->query($type_count1);
+$type_count2 = "SELECT * FROM tb_request WHERE created_by = ".$emp_id." AND req_type_id = 2 ";
+$result_type_count2 = $conn->query($type_count2);
+$type_count3 = "SELECT * FROM tb_request WHERE created_by = ".$emp_id." AND req_type_id = 3 ";
+$result_type_count3 = $conn->query($type_count3);
+$close_count = "SELECT * FROM tb_request WHERE created_by = ".$emp_id." AND is_close = 'YES' ";
+$result_close_count = $conn->query($close_count);
 
-$sql_req_by = "SELECT * FROM tb_request a 
-                  INNER JOIN tb_employee b 
-                    ON a.emp_id = b.emp_id 
-                      WHERE created_by = ".$emp_id." ";
+$sql_req_by = "SELECT *,a.id AS req_id 
+                  FROM tb_request a 
+                        INNER JOIN tb_employee b 
+                        ON a.emp_id = b.emp_id 
+                              WHERE created_by = ".$emp_id." ";
 $result_req_by = $conn->query($sql_req_by);
 
 ?>
@@ -79,27 +86,51 @@ $result_req_by = $conn->query($sql_req_by);
       <div class="container-fluid">
         <!-- Small boxes (Stat box) -->
         <div class="row">
-          <div class="col-lg-6 col-6">
+          <div class="col-lg-3 col-3">
             <div class="small-box bg-info">
               <div class="inner">
-                <h3><?php echo $result_req->num_rows; ?></h3>
-                <p>New Articles</p>
+                <h3><?php echo $result_type_count1->num_rows; ?></h3>
+                <p>เลื่อนระดับ</p>
               </div>
               <div class="icon">
-                <i class="ion ion-pie-graph"></i>
+                <i class="ion-android-contact"></i>
               </div>
               <a href="../articles" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
             </div>
           </div>
-          <div class="col-lg-6 col-6">
-            <div class="small-box bg-success">
+          <div class="col-lg-3 col-3">
+            <div class="small-box bg-warning">
               <div class="inner">
-                <h3><?php echo $result_type_count1->num_rows; ?></h3>
-
-                <p>All Contacts</p>
+                <h3><?php echo $result_type_count2->num_rows; ?></h3>
+                <p>ย้าย</p>
               </div>
               <div class="icon">
-                <i class="ion ion-stats-bars"></i>
+                <i class="ion-android-contacts"></i>
+              </div>
+              <a href="../articles" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-3 col-3">
+            <div class="small-box bg-secondary">
+              <div class="inner">
+                <h3><?php echo $result_type_count3->num_rows; ?></h3>
+                <p>แต่งตั้ง/ย้ายและแต่งตั้ง (ชผ.ขึ้นไป)</p>
+              </div>
+              <div class="icon">
+                <i class="ion-android-person"></i>
+              </div>
+              <a href="../articles" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-3 col-3">
+            <div class="small-box bg-success">
+              <div class="inner">
+                <h3><?php echo $result_close_count->num_rows; ?></h3>
+
+                <p>เสร็จแล้ว</p>
+              </div>
+              <div class="icon">
+                <i class="ion-ios-checkmark-outline"></i>
               </div>
               <a href="../contacts" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
             </div>
@@ -114,7 +145,7 @@ $result_req_by = $conn->query($sql_req_by);
             <!-- DIRECT CHAT -->
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Contact Us</h3>
+                <h3 class="card-title">ข้อมูลคำร้องระหว่างดำเนินการทั้งหมด</h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body table-responsive p-0">
@@ -127,6 +158,7 @@ $result_req_by = $conn->query($sql_req_by);
                     <th>สังกัด</th>
                     <th>รายละเอียด</th>
                     <th>สร้างเมื่อ</th>
+                    <th></th>
 
                 </tr>
                 </thead>
@@ -139,11 +171,19 @@ $result_req_by = $conn->query($sql_req_by);
                 <tr>
                     <td><?php echo $num; ?></td>
                     <td><?php echo $row['emp_id']; ?></td>
-                    <td><?php echo $row['name']; ?></td>
+                    <td><?php echo $row['names']; ?></td>
                     <td><?php echo $row['position']; ?></td>
                     <td><?php echo $row['office']; ?></td>
                     <td><?php echo $row['detail']; ?></td>
                     <td><?php echo date("d/m/Y", strtotime($row['created_at'])); ?></td>
+                    <td>
+                  <a href="form-edit.php?id=<?php echo $row['req_id']; ?>" class="btn btn-sm btn-warning text-white">
+                    <i class="fas fa-edit"></i>
+                  </a> 
+                  <a href="#" onclick="deleteItem(<?php echo $row['req_id']; ?>);" class="btn btn-sm btn-danger">
+                    <i class="fas fa-trash-alt"></i>
+                  </a>
+                </td>
                     
                 </tr>
                 <?php } ?>
