@@ -80,4 +80,4 @@
     </span>
 </footer>
 
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAN7pVYXyLuKkftPkDMFhpTjov4MYVxTnY&callback=initMap"></script>
+

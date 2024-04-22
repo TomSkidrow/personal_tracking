@@ -115,7 +115,7 @@
     <script src="node_modules/jarallax/dist/jarallax.min.js"></script>
     <script src="node_modules/owl.carousel/dist/owl.carousel.min.js"></script>
     <script src="https://www.google.com/recaptcha/api.js"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAN7pVYXyLuKkftPkDMFhpTjov4MYVxTnY&callback=initMap"></script>
+    
     <script src="assets/js/main.js"></script>
 
     <script>
