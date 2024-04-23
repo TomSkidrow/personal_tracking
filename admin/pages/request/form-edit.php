@@ -62,13 +62,13 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Request Management</h1>
+            <h1>Create Request</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="../dashboard">Home</a></li>
-              <li class="breadcrumb-item"><a href="../request">จัดการคำร้อง</a></li>
-              <li class="breadcrumb-item active">สร้างข้อมูล</li>
+              <li class="breadcrumb-item"><a href="../request">Request Management</a></li>
+              <li class="breadcrumb-item active">Create Request</li>
             </ol>
           </div>
         </div>
@@ -93,7 +93,7 @@
 
             <div class="form-group">
               <label>ประเภทคำร้อง</label>
-              <select class="form-control select2" name="req_type_id" style="width: 100%;">
+              <select class="form-control select2" name="req_type_id" style="width: 100%;" required>
                   <?php 
                         echo "<option value='' disabled selected></option>";
                         if ($result_select->num_rows > 0) {

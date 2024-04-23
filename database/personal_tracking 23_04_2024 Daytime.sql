@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 22, 2024 at 12:00 PM
+-- Generation Time: Apr 23, 2024 at 11:10 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -2760,10 +2760,14 @@ CREATE TABLE `tb_request` (
 --
 
 INSERT INTO `tb_request` (`id`, `emp_id`, `detail`, `created_by`, `created_at`, `req_type_id`, `is_close`) VALUES
-(1, 506341, 'เลื่อนระดับ เดินทางปลอดภัย', 475124, '2024-04-21 07:41:53', 1, 'NO'),
-(2, 509541, 'เลื่อนระดับ', 475124, '2024-04-21 07:42:30', 1, 'NO'),
-(3, 512397, 'เลื่อนระดับ', 493538, '2024-04-21 15:16:53', 1, 'NO'),
-(4, 509221, 'ย้าย', 475124, '2024-04-21 15:32:21', 2, 'NO');
+(1, 506341, 'เลื่อนระดับ เดินทางปลอดภัย', 475124, '2024-04-21 00:41:53', 1, 'NO'),
+(2, 509541, 'เลื่อนระดับ', 475124, '2024-04-21 00:42:30', 1, 'NO'),
+(3, 512397, 'เลื่อนระดับ', 493538, '2024-04-21 08:16:53', 1, 'NO'),
+(4, 509221, 'ย้าย', 475124, '2024-04-21 08:32:21', 2, 'NO'),
+(5, 503468, 'ขอย้าย สังกัด จาก กฟส.สมเด็จ ไปยัง กฟส.รอ.', 475124, '2024-04-22 08:19:12', 2, 'NO'),
+(6, 509246, 'ขอย้ายกลับภูมิลำเนา ตามสำเนาทะเบียนบ้านภูมิลำเนาเดิม , เพื่อดูแลบิดา มารดา', 493538, '2024-04-23 08:33:11', 2, 'NO'),
+(7, 503468, 'ติดตามคู่สมรส, เพื่อดูแลบิดา มารดา ', 493538, '2024-04-23 08:36:00', 2, 'NO'),
+(9, 330895, 'เพื่อเพิ่มพูนความรู้ในการทำงาน', 493538, '2024-04-23 09:09:22', 2, 'NO');
 
 -- --------------------------------------------------------
 
@@ -2854,8 +2858,21 @@ CREATE TABLE `tb_tracking` (
   `status_id` int(11) NOT NULL COMMENT 'id สถานะดำเนินการ',
   `tracking_detail` text DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `active` enum('true','false') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci ROW_FORMAT=DYNAMIC;
+
+--
+-- Dumping data for table `tb_tracking`
+--
+
+INSERT INTO `tb_tracking` (`id`, `request_id`, `status_id`, `tracking_detail`, `created_at`, `updated_at`, `active`) VALUES
+(1, 5, 13, 'ลงรับเรื่องแล้วจร้า', '2024-04-22 09:45:35', NULL, 'true'),
+(2, 2, 1, 'ลงรับเรื่องย้ายแล้ว', '2024-04-22 10:12:24', NULL, 'true'),
+(3, 2, 2, 'คุณสมบัติไม่ถูกต้อง', '2024-04-22 10:15:33', NULL, 'true'),
+(6, 3, 1, 'เลื่อนระดับ 4 -> 5', '2024-04-23 07:14:24', NULL, 'false'),
+(7, 3, 5, 'มีคุณสมบัติครบถ้วนสามารถเลื่อนขึ้นดำรงตำแหน่งระดับสูงขึ้น', '2024-04-23 08:23:54', NULL, 'true'),
+(8, 3, 6, '', '2024-04-23 08:25:31', NULL, 'true');
 
 -- --------------------------------------------------------
 
@@ -2880,9 +2897,9 @@ CREATE TABLE `tb_user` (
 --
 
 INSERT INTO `tb_user` (`id`, `username`, `password`, `emp_id`, `names`, `status`, `created_at`, `updated_at`, `last_login`) VALUES
-(11, 'admin', '$2y$10$2dRRQErX2jnbf/Ct/C8TKu3GJ7hF4B/SAMlgBsAz6VMFVmUELsZ4.', 475124, 'Chattamet Supakamonsenee', 'superadmin', '2024-04-20 15:14:57', '2024-04-22 08:21:41', '2024-04-22 15:21:41'),
-(12, '493538', '$2y$10$3h/WF91nMz8KZonjvCCjy.gciGx89RvzrQk36LeRbZ8TCVqVjNH12', 493538, 'Sarinrat Supakamonsenee', 'admin', '2024-04-20 16:47:59', '2024-04-20 16:56:23', '2024-04-20 23:54:11'),
-(16, '444444', '$2y$10$oINN4RP/KBqvBI.eROl96.97jM4FkBAzyz2P5y2yyfxQXP.f1oNB.', 444444, 'Thiwarin ศุภกมลเสนีย์', 'admin', '2024-04-20 18:06:18', '2024-04-20 18:06:39', '2024-04-21 01:06:18');
+(11, 'admin', '$2y$10$2dRRQErX2jnbf/Ct/C8TKu3GJ7hF4B/SAMlgBsAz6VMFVmUELsZ4.', 475124, 'Chattamet Supakamonsenee', 'superadmin', '2024-04-20 08:14:57', '2024-04-23 04:21:18', '2024-04-23 11:21:18'),
+(12, '493538', '$2y$10$3h/WF91nMz8KZonjvCCjy.gciGx89RvzrQk36LeRbZ8TCVqVjNH12', 493538, 'Sarinrat Supakamonsenee', 'admin', '2024-04-20 09:47:59', '2024-04-23 04:21:49', '2024-04-23 11:21:49'),
+(16, '444444', '$2y$10$oINN4RP/KBqvBI.eROl96.97jM4FkBAzyz2P5y2yyfxQXP.f1oNB.', 444444, 'Thiwarin ศุภกมลเสนีย์', 'admin', '2024-04-20 11:06:18', '2024-04-20 11:06:39', '2024-04-21 01:06:18');
 
 --
 -- Indexes for dumped tables
@@ -2944,7 +2961,7 @@ ALTER TABLE `tb_employee`
 -- AUTO_INCREMENT for table `tb_request`
 --
 ALTER TABLE `tb_request`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `tb_request_type`
@@ -2962,7 +2979,7 @@ ALTER TABLE `tb_status`
 -- AUTO_INCREMENT for table `tb_tracking`
 --
 ALTER TABLE `tb_tracking`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `tb_user`
