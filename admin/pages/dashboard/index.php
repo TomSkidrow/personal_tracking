@@ -15,7 +15,7 @@ $sql_req_by = "SELECT *,a.id AS req_id
                   FROM tb_request a 
                         INNER JOIN tb_employee b 
                         ON a.emp_id = b.emp_id 
-                              WHERE created_by = ".$emp_id." ";
+                              WHERE created_by = ".$emp_id." ORDER BY a.id ASC ";
 $result_req_by = $conn->query($sql_req_by);
 
 ?>
@@ -139,7 +139,7 @@ $result_req_by = $conn->query($sql_req_by);
             <!-- DIRECT CHAT -->
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">ข้อมูลคำร้องระหว่างดำเนินการทั้งหมด</h3>
+                <h3 class="card-title">คำร้องระหว่างดำเนินการ</h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body table-responsive p-0">

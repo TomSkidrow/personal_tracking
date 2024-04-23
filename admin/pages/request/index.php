@@ -50,12 +50,12 @@ $result = $conn->query($sql);
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Articles Management</h1>
+            <h1>Request Management</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="../dashboard">Dashboard</a></li>
-              <li class="breadcrumb-item active">Articles Management</li>
+              <li class="breadcrumb-item active">Request Management</li>
             </ol>
           </div>
         </div>
@@ -68,8 +68,8 @@ $result = $conn->query($sql);
       <!-- Default box -->
       <div class="card">
         <div class="card-header">
-          <h3 class="card-title d-inline-block">Contents List</h3>
-          <a href="form-create.php" class="btn btn-primary float-right ">Add Articles +</a href="">
+          <h3 class="card-title d-inline-block">พนักงาน-ลูกจ้าง ทั้งหมด</h3>
+          
         </div>
         <!-- /.card-header -->
         <div class="card-body">
@@ -82,7 +82,7 @@ $result = $conn->query($sql);
               <th>ตำแหน่ง</th>
               <th>สถานะ</th>
               <th>สังกัด</th>
-              <th>Action</th>
+              <th></th>
             </tr>
             </thead>
             <tbody>
@@ -102,9 +102,6 @@ $result = $conn->query($sql);
                   <a href="form-edit.php?id=<?php echo $row['id']; ?>" class="btn btn-sm btn-warning text-white">
                     <i class="fas fa-edit"></i>
                   </a> 
-                  <a href="#" onclick="deleteItem(<?php echo $row['id']; ?>);" class="btn btn-sm btn-danger">
-                    <i class="fas fa-trash-alt"></i>
-                  </a>
                 </td>
               </tr>
             <?php } ?>

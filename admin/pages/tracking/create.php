@@ -12,7 +12,7 @@
             $result = $conn->query($sql) or die($conn->error);
             if($result){
                 echo '<script> alert("เพิ่มข้อมูลสำเร็จ") </script>';
-                header('Refresh:0; url=index.php');
+                header('Refresh:0; url=form-edit.php?id='.$_POST['req_id'].'');
             }
          else {
             echo 'No';
