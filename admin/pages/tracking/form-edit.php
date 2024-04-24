@@ -19,7 +19,7 @@
                         ON a.id = b.request_id
                         INNER JOIN tb_status c 
                         ON b.status_id = c.id 
-                              WHERE b.request_id = '".$_GET['id']."' ";
+                              WHERE b.request_id = '".$_GET['id']."' ORDER BY b.id ASC ";
   $result_tracking = $conn->query($sql_tracking); 
 
 
@@ -76,13 +76,13 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Request Management</h1>
+            <h1>จัดการข้อมูล Tracking</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="../dashboard">Home</a></li>
-              <li class="breadcrumb-item"><a href="../request">จัดการคำร้อง</a></li>
-              <li class="breadcrumb-item active">สร้างข้อมูล</li>
+              <li class="breadcrumb-item"><a href="../tracking">Tracking Management</a></li>
+              <li class="breadcrumb-item active">จัดการข้อมูล Tracking</li>
             </ol>
           </div>
         </div>
@@ -92,9 +92,7 @@
     <!-- Main content -->
     <section class="content">
       <div class="card card-primary">
-        <div class="card-header">
-        <h3 class="card-title">สร้างข้อมูลคำร้อง</h3>
-        </div>
+    
         <!-- /.card-header -->
         <!-- form start -->
         <form action="create.php" method="post" enctype="multipart/form-data">
@@ -105,13 +103,13 @@
               <input type="text" disabled class="form-control" id="subject" name="subject" placeholder="Subject" value="<?php echo $row['emp_id']." ".'|'; ?> &nbsp;<?php echo $row['names']; ?> &nbsp; <?php echo $row['position']; ?> &nbsp; <?php echo $row['office']; ?>" required>
             </div>
             <div class="form-group">
-              <label for="subject">ข้อมูลคำร้อง</label>
+              <label for="subject">รายละเอียดข้อมูลคำร้อง</label>
               <input type="text" disabled class="form-control" id="subject" name="subject" placeholder="Subject" value="<?php echo $row['detail']; ?> " required>
             </div>
 
             <div class="form-group">
-              <label>ประเภทคำร้อง</label>
-              <select class="form-control select2" name="status_id" style="width: 100%;">
+              <label>สถานะดำเนินการ</label>
+              <select class="form-control select2" name="status_id" style="width: 100%;" required>
                   <?php 
                         echo "<option value='' disabled selected></option>";
                         if ($result_select->num_rows > 0) {
@@ -128,7 +126,7 @@
 
             <div class="form-group">
               <label for="detail">รายละเอียด</label>
-              <textarea class="form-control" id="detail" name="detail" placeholder="กรอกรายละเอียด" rows="5" cols="80" required></textarea>
+              <textarea class="form-control" id="detail" name="detail" placeholder="กรอกรายละเอียด" rows="5" cols="80"></textarea>
             </div>
 
             <input type="hidden" name="req_id" value="<?php echo $row['req_id']; ?>">
@@ -147,6 +145,7 @@
 <div class="card">
   <div class="card-header">
     <h3 class="card-title">ข้อมูล Tracking ทั้งหมด</h3>
+    
   </div>
   <!-- /.card-header -->
   <div class="card-body table-responsive p-0">
@@ -155,8 +154,7 @@
         <th>No.</th>
         <th>สถานะงาน</th>
         <th>รายละเอียด</th>
-        <th>สร้างเมื่อ</th>
-        <th></th>
+        <th>วันที่-เวลา</th>
 
     </tr>
     </thead>
@@ -172,11 +170,8 @@
         <td><?php echo $row['tracking_detail']; ?></td>
         <td><?php echo date("d/m/Y H:i:s", strtotime($row['created_at'])); ?></td>
         <td>
-      <a href="#" onclick="deleteItem(<?php echo $row['tracking_id']; ?>);" class="btn btn-sm btn-danger">
-        <i class="fas fa-trash-alt"></i>
-      </a>
-    </td>
-        
+        <td><input class="toggle-event" data-id="<?php echo $row['tracking_id']; ?>" type="checkbox" name="active" <?php echo $row['active'] == 'true' ? 'checked': ''; ?> data-toggle="toggle" data-on="แสดงผล" data-off="ปิด" data-onstyle="success" data-style="ios"></td>
+        </td>     
     </tr>
     <?php } ?>
     </tbody>
@@ -216,6 +211,9 @@
 <!-- Select2 -->
 <script src="../../plugins/select2/select2.full.min.js"></script>
 
+<!-- bootstrap-toggle -->
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
 
 
 <script>
@@ -229,12 +227,24 @@
       "autoWidth": true
     });
 
-    function deleteItem (id) { 
-    if( confirm('Are you sure, you want to delete this item?') == true){
-      window.location=`delete.php?id=${id}`;
-      //window.location='delete.php?id='+id;
-    }
-  };
+    $('.toggle-event').change(function(){
+    $.ajax({
+      method: "POST",
+      url: "active.php",
+      data: { 
+        id: $(this).data('id'), 
+        value: $(this).is(':checked') 
+      }
+    })
+    .done(function( resp, status, xhr) {
+      setTimeout(() => {
+        alert(status)
+      }, 300);
+    })
+    .fail(function ( xhr, status, error) { 
+      alert(status +' '+ error)
+    })
+  })
 
     //Initialize Select2 Elements
     $('.select2').select2()

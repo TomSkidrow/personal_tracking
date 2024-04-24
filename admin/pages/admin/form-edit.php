@@ -75,7 +75,7 @@
               <input type="text" disabled class="form-control" name="username" id="username" placeholder="Username" value="<?php echo $row['username']; ?>" required>
             </div>
             <div class="form-group">
-              <label for="firstName">FirstName</label>
+              <label for="firstName">Name</label>
               <input type="text" class="form-control" name="first_name" id="firstName" placeholder="FirstName" value="<?php echo $row['names']; ?>" required>
             </div>
 

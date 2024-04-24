@@ -7,7 +7,7 @@ $sql = "SELECT *,a.id AS req_id
                   ON a.emp_id = b.emp_id
                   INNER JOIN tb_request_type c 
                   ON a.req_type_id = c.id 
-                      WHERE created_by = ".$emp_id." AND is_close = 'NO' ";
+                      WHERE created_by = ".$emp_id." AND is_close = 'NO' ORDER BY a.id ASC ";
 $result = $conn->query($sql);
 ?>
 <!DOCTYPE html>
@@ -15,7 +15,7 @@ $result = $conn->query($sql);
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Articles Management</title>
+  <title>Tracking Management</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Favicons -->
@@ -57,12 +57,12 @@ $result = $conn->query($sql);
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Articles Management</h1>
+            <h1>Tracking Management</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="../dashboard">Dashboard</a></li>
-              <li class="breadcrumb-item active">Articles Management</li>
+              <li class="breadcrumb-item active">Tracking Management</li>
             </ol>
           </div>
         </div>
@@ -75,9 +75,8 @@ $result = $conn->query($sql);
       <!-- Default box -->
       <div class="card">
         <div class="card-header">
-          <h3 class="card-title d-inline-block">Contents List</h3>
-          <a href="form-create.php" class="btn btn-primary float-right ">Add Articles +</a href="">
-        </div>
+          <h3 class="card-title d-inline-block">คำร้องทั้งหมด</h3>
+          </div>
         <!-- /.card-header -->
         <div class="card-body">
           <table id="dataTable" class="table table-bordered table-striped">
@@ -88,8 +87,9 @@ $result = $conn->query($sql);
               <th>ชื่อ-นามสกุล</th>
               <th>ตำแหน่ง</th>
               <th>ประเภท</th>
-              <th>วันที่สร้าง</th>
-              <th>Action</th>
+              <th>วันที่-เวลา</th>
+              <th></th>
+              
             </tr>
             </thead>
             <tbody>
@@ -104,15 +104,19 @@ $result = $conn->query($sql);
                 <td><?php echo $row['names']; ?></td>
                 <td><?php echo $row['position']; ?></td>
                 <td><?php echo $row['req_type_name']; ?></td>
-                <td><?php echo date("d/m/Y", strtotime($row['created_at'])); ?></td>
+                <td><?php echo date("d/m/Y H:i:s", strtotime($row['created_at'])); ?></td>
                 <td>
                   <a href="form-edit.php?id=<?php echo $row['req_id']; ?>" class="btn btn-sm btn-warning text-white">
                     <i class="fas fa-edit"></i>
-                  </a> 
+                  </a>&nbsp; 
                   <a href="#" onclick="deleteItem(<?php echo $row['req_id']; ?>);" class="btn btn-sm btn-danger">
                     <i class="fas fa-trash-alt"></i>
+                  </a>&nbsp;
+                  <a href="#" onclick="closeItem(<?php echo $row['req_id']; ?>);" class="btn btn-sm btn-success">
+                    <i class="fas fa-check"></i>
                   </a>
                 </td>
+                
               </tr>
             <?php } ?>
             </tbody>
@@ -166,30 +170,19 @@ $result = $conn->query($sql);
   });
 
   function deleteItem (id) { 
-    if( confirm('Are you sure, you want to delete this item?') == true){
+    if( confirm('ต้องการลบ คำร้องนี้หรือไม่?') == true){
       window.location=`delete.php?id=${id}`;
       // window.location='delete.php?id='+id;
     }
   };
 
-  $('.toggle-event').change(function(){
-    $.ajax({
-      method: "POST",
-      url: "active.php",
-      data: { 
-        id: $(this).data('id'), 
-        value: $(this).is(':checked') 
-      }
-    })
-    .done(function( resp, status, xhr) {
-      setTimeout(() => {
-        alert(status)
-      }, 300);
-    })
-    .fail(function ( xhr, status, error) { 
-      alert(status +' '+ error)
-    })
-  })
+  function closeItem (id) { 
+    if( confirm('ต้องการปิดงาน คำร้องนี้หรือไม่?') == true){
+      window.location=`close.php?id=${id}`;
+      // window.location='delete.php?id='+id;
+    }
+  };
+
 
 </script>
 

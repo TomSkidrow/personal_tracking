@@ -62,13 +62,13 @@ $name = $array[$key + 1];
           <li class="nav-item">
             <a href="../request" class="nav-link <?php echo $name == 'request' ? 'active': '' ?>">
               <i class="fas fa-chalkboard-teacher nav-icon"></i>
-              <p>คำร้อง</p>
+              <p>Request</p>
             </a>
           </li>
           <li class="nav-item">
             <a href="../tracking" class="nav-link <?php echo $name == 'tracking' ? 'active': '' ?>">
               <i class="fas fa-regular fa-clock nav-icon"></i>
-              <p>การดำเนินการ</p>
+              <p>Tracking</p>
             </a>
           </li>
 

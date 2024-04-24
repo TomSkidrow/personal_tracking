@@ -1,7 +1,7 @@
 <?php 
 include_once('../authen.php'); 
 header('Content-Type: application/json');
-$sql = "UPDATE `articles` SET `status` = '".$_POST['value']."' WHERE `id` = '".$_POST['id']."' ";
+$sql = "UPDATE `tb_tracking` SET `active` = '".$_POST['value']."' WHERE `id` = '".$_POST['id']."' ";
 $result = $conn->query($sql);
 if($result){
     http_response_code(200);

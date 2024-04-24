@@ -1,6 +1,6 @@
 <?php 
-include_once('../authen.php');
-$sql = "SELECT * FROM `tb_user`";
+include_once('../authen.php'); 
+$sql = "SELECT * FROM tb_employee";
 $result = $conn->query($sql);
 ?>
 <!DOCTYPE html>
@@ -8,7 +8,7 @@ $result = $conn->query($sql);
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Admin Management</title>
+  <title>Articles Management</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Favicons -->
@@ -27,10 +27,15 @@ $result = $conn->query($sql);
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+  <!-- style  -->
+  <link rel="stylesheet" href="../../dist/css/style.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   <!-- DataTables -->
   <link rel="stylesheet" href="../../plugins/datatables/dataTables.bootstrap4.min.css">
+  <!-- bootstrap-toggle -->
+  <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+
 </head>
 <body class="hold-transition sidebar-mini">
 <!-- Site wrapper -->
@@ -45,12 +50,12 @@ $result = $conn->query($sql);
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Admin Management</h1>
+            <h1>Request Management</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="../dashboard">Dashboard</a></li>
-              <li class="breadcrumb-item active">Admin Management</li>
+              <li class="breadcrumb-item active">Request Management</li>
             </ol>
           </div>
         </div>
@@ -63,8 +68,8 @@ $result = $conn->query($sql);
       <!-- Default box -->
       <div class="card">
         <div class="card-header">
-          <h3 class="card-title d-inline-block">Admin List</h3>
-          <a href="form-create.php" class="btn btn-primary float-right ">Add Admin +</a href="">
+          <h3 class="card-title d-inline-block">พนักงาน-ลูกจ้าง ทั้งหมด</h3>
+          
         </div>
         <!-- /.card-header -->
         <div class="card-body">
@@ -72,37 +77,31 @@ $result = $conn->query($sql);
             <thead>
             <tr>
               <th>No.</th>
-              <th>Username</th>
-              <th>Name</th>
-              
-              <th>Permission</th>
-              <th>Edit</th>
-              <th>Delete</th>
+              <th>รหัส</th>
+              <th>ชื่อ-นาสกุล</th>
+              <th>ตำแหน่ง</th>
+              <th>สถานะ</th>
+              <th>สังกัด</th>
+              <th></th>
             </tr>
             </thead>
             <tbody>
             <?php 
-            $num = 0;
-            while ($row = $result->fetch_assoc()) {
-              $num++;
-              ?>
+              $num = 0;
+              while($row = $result->fetch_assoc()){
+                $num++;
+            ?>
               <tr>
                 <td><?php echo $num; ?></td>
-                <td><?php echo $row['username']; ?></td>
+                <td><?php echo $row['emp_id']; ?></td>
                 <td><?php echo $row['names']; ?></td>
-               
-                <td><span class="badge badge-primary"><?php echo $row['status']; ?></span></td>
+                <td><?php echo $row['position']; ?></td>
+                <td><?php echo $row['emp_type']; ?></td>
+                <td><?php echo $row['office']; ?></td>
                 <td>
                   <a href="form-edit.php?id=<?php echo $row['id']; ?>" class="btn btn-sm btn-warning text-white">
-                    <i class="fas fa-edit"></i> edit
+                    <i class="fas fa-edit"></i>
                   </a> 
-                </td>
-                <td>
-                  <?php if($row['id'] != 1){ ?>
-                  <a href="#" onclick="deleteItem(<?php echo $row['id']; ?>);" class="btn btn-sm btn-danger">
-                    <i class="fas fa-trash-alt"></i> Delete
-                  </a>
-                  <?php } ?>
                 </td>
               </tr>
             <?php } ?>
@@ -139,6 +138,10 @@ $result = $conn->query($sql);
 <!-- DataTables -->
 <script src="https://adminlte.io/themes/AdminLTE/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="../../plugins/datatables/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"></script>
+
+<!-- bootstrap-toggle -->
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 
 <script>
   $(function () {
@@ -155,9 +158,28 @@ $result = $conn->query($sql);
   function deleteItem (id) { 
     if( confirm('Are you sure, you want to delete this item?') == true){
       window.location=`delete.php?id=${id}`;
-      //window.location='delete.php?id='+id;
+      // window.location='delete.php?id='+id;
     }
   };
+
+  $('.toggle-event').change(function(){
+    $.ajax({
+      method: "POST",
+      url: "active.php",
+      data: { 
+        id: $(this).data('id'), 
+        value: $(this).is(':checked') 
+      }
+    })
+    .done(function( resp, status, xhr) {
+      setTimeout(() => {
+        alert(status)
+      }, 300);
+    })
+    .fail(function ( xhr, status, error) { 
+      alert(status +' '+ error)
+    })
+  })
 
 </script>
 

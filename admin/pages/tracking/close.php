@@ -3,13 +3,11 @@
 <?php include_once('../authen.php') ?>
 <?php
     if (isset($_GET['id'])){
-        $sql = "DELETE FROM `tb_request` WHERE `id` = '".$_GET['id']."' ";
+        $sql = "UPDATE `tb_request` SET `is_close` = 'YES' WHERE `id` = '".$_GET['id']."' ";
         $result = $conn->query($sql);
-        $sql2 = "DELETE FROM `tb_tracking` WHERE `request_id` = '".$_GET['id']."' ";
-        $result2 = $conn->query($sql2);
 
         if( $conn->affected_rows ){
-            echo '<script> alert("ลบข้อมูลสำเร็จ!")</script>'; 
+            echo '<script> alert("ปิดคำร้องสำเร็จ!")</script>'; 
             header('Refresh:0; url=index.php'); 
         } else {
             echo '<script> alert("ไม่มีข้อมูล!")</script>'; 

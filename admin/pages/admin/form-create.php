@@ -65,12 +65,12 @@
         <form role="form" action="create.php" method="post">
           <div class="card-body">
             <div class="form-group">
-              <label for="firstName">FirstName</label>
-              <input type="text" class="form-control" name="first_name" id="firstName" placeholder="FirstName" required>
+              <label for="firstName">Name</label>
+              <input type="text" class="form-control" name="names" id="Names" placeholder="ชื่อ-นามสกุล" required>
             </div>
             <div class="form-group">
               <label for="lastName">รหัสพนักงาน</label>
-              <input type="text" class="form-control" name="last_name" id="lastName" placeholder="LastName" required>
+              <input type="text" class="form-control" name="emp_id" id="emp_id" placeholder="รหัสพนักงาน" required>
             </div>
             <div class="form-group">
               <label for="username">Username</label>
