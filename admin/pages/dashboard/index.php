@@ -11,11 +11,17 @@ $result_type_count3 = $conn->query($type_count3);
 $close_count = "SELECT * FROM tb_request WHERE created_by = ".$emp_id." AND is_close = 'YES' ";
 $result_close_count = $conn->query($close_count);
 
+
+$sql = " ";
+$result = $conn->query($sql);
+
 $sql_req_by = "SELECT *,a.id AS req_id 
-                  FROM tb_request a 
-                        INNER JOIN tb_employee b 
-                        ON a.emp_id = b.emp_id 
-                              WHERE created_by = ".$emp_id." ORDER BY a.id ASC ";
+                        FROM tb_request a 
+                              INNER JOIN tb_employee b 
+                              ON a.emp_id = b.emp_id
+                              INNER JOIN tb_request_type c 
+                              ON a.req_type_id = c.id 
+                                  WHERE created_by = ".$emp_id." AND is_close = 'NO' ORDER BY a.id ASC";
 $result_req_by = $conn->query($sql_req_by);
 
 ?>
@@ -89,7 +95,7 @@ $result_req_by = $conn->query($sql_req_by);
               <div class="icon">
                 <i class="ion-android-contact"></i>
               </div>
-              <a href="../articles" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+             
             </div>
           </div>
           <div class="col-lg-3 col-3">
@@ -101,7 +107,7 @@ $result_req_by = $conn->query($sql_req_by);
               <div class="icon">
                 <i class="ion-android-contacts"></i>
               </div>
-              <a href="../articles" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+              
             </div>
           </div>
           <div class="col-lg-3 col-3">
@@ -113,7 +119,7 @@ $result_req_by = $conn->query($sql_req_by);
               <div class="icon">
                 <i class="ion-android-person"></i>
               </div>
-              <a href="../articles" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+              
             </div>
           </div>
           <div class="col-lg-3 col-3">
@@ -126,7 +132,7 @@ $result_req_by = $conn->query($sql_req_by);
               <div class="icon">
                 <i class="ion-ios-checkmark-outline"></i>
               </div>
-              <a href="../contacts" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+              
             </div>
           </div>
         </div>
@@ -150,7 +156,7 @@ $result_req_by = $conn->query($sql_req_by);
                     <th>ชื่อ-นามสกุล</th>
                     <th>ตำแหน่ง</th>
                     <th>สังกัด</th>
-                    <th>รายละเอียด</th>
+                    <th>ประเภท</th>
                     <th>สร้างเมื่อ</th>
                     <th></th>
 
@@ -168,15 +174,12 @@ $result_req_by = $conn->query($sql_req_by);
                     <td><?php echo $row['names']; ?></td>
                     <td><?php echo $row['position']; ?></td>
                     <td><?php echo $row['office']; ?></td>
-                    <td><?php echo $row['detail']; ?></td>
+                    <td><?php echo $row['req_type_name']; ?></td>
                     <td><?php echo date("d/m/Y", strtotime($row['created_at'])); ?></td>
                     <td>
-                  <a href="form-edit.php?id=<?php echo $row['req_id']; ?>" class="btn btn-sm btn-warning text-white">
-                    <i class="fas fa-edit"></i>
+                  <a href="form-tracking.php?id=<?php echo $row['req_id']; ?>" class="btn btn-sm btn-primary text-white">
+                    <i class="fas fa-tags"></i>
                   </a> 
-                  <a href="#" onclick="deleteItem(<?php echo $row['req_id']; ?>);" class="btn btn-sm btn-danger">
-                    <i class="fas fa-trash-alt"></i>
-                  </a>
                 </td>
                     
                 </tr>

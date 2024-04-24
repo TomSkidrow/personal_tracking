@@ -19,7 +19,7 @@
                         ON a.id = b.request_id
                         INNER JOIN tb_status c 
                         ON b.status_id = c.id 
-                              WHERE b.request_id = '".$_GET['id']."' ";
+                              WHERE b.request_id = '".$_GET['id']."' ORDER BY b.id ASC ";
   $result_tracking = $conn->query($sql_tracking); 
 
 
@@ -76,13 +76,13 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>สร้างข้อมูล Tracking</h1>
+            <h1>จัดการข้อมูล Tracking</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="../dashboard">Home</a></li>
               <li class="breadcrumb-item"><a href="../tracking">Tracking Management</a></li>
-              <li class="breadcrumb-item active">สร้างข้อมูล Tracking</li>
+              <li class="breadcrumb-item active">จัดการข้อมูล Tracking</li>
             </ol>
           </div>
         </div>

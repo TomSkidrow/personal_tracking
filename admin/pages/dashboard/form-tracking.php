@@ -81,13 +81,55 @@
       </div><!-- /.container-fluid -->
     </section>
 
-    <!-- Main content -->
+
     <section class="content">
       <div class="card">
   <br>
-        <!-- /.card-header -->
+  <br>
+
+<!-- The timeline -->
+<ul class="timeline timeline-inverse">
+
+              <!-- timeline time label -->
+              <li class="time-label">
+                <span class="bg-primary">
+                <?php echo date("d/m/Y", strtotime($row['created_at'])); ?>
+                </span>
+              </li>
+              <!-- /.timeline-label -->
+              <!-- timeline item -->
+              <li>
+                <i class="fa fa-user bg-warning"></i>
+
+                <div class="timeline-item">
+                  <span class="time"><i class="fa fa-clock"></i> <?php echo date("d/m/Y H:i:s", strtotime($row['created_at'])); ?></span>
+
+                  <h3 class="timeline-header"><?php echo $row['emp_id']." ".'|'; ?> &nbsp;<?php echo $row['names']; ?> &nbsp; <?php echo $row['position']; ?> &nbsp; <?php echo $row['office']; ?></h3>
+
+                  <div class="timeline-body">
+                          <?php echo $row['detail']; ?>
+                  </div>
+
+                </div>
+              </li>
+              <!-- END timeline item -->
+
+            </ul><br>
+
+
+
+</div>
+</section>
+
+<section class="content">
+      <div class="card">
+  <br>
+
         <!-- The timeline -->
         <ul class="timeline timeline-inverse">
+
+ 
+
         <?php 
                 $num = 0;
                 while($row = $result_tracking->fetch_assoc()){
@@ -95,7 +137,7 @@
         ?>
                       <!-- timeline time label -->
                       <li class="time-label">
-                        <span class="bg-danger">
+                        <span class="bg-success">
                         <?php echo date("d/m/Y", strtotime($row['created_at'])); ?>
                         </span>
                       </li>
@@ -105,80 +147,23 @@
                         <i class="fa fa-envelope bg-primary"></i>
 
                         <div class="timeline-item">
-                          <span class="time"><i class="fa fa-clock-o"></i> <?php echo date("H:i:s", strtotime($row['created_at'])); ?></span>
+                          <span class="time"><i class="fa fa-clock"></i> <?php echo date("d/m/Y H:i:s", strtotime($row['created_at'])); ?></span>
 
                           <h3 class="timeline-header"><?php echo $row['status_name']; ?></h3>
 
                           <div class="timeline-body">
                                   <?php echo $row['tracking_detail']; ?>
                           </div>
-                          <div class="timeline-footer">
-                            <a href="#" class="btn btn-primary btn-sm">Read more</a>
-                            <a href="#" class="btn btn-danger btn-sm">Delete</a>
-                          </div>
+
                         </div>
                       </li>
                       <!-- END timeline item -->
       <?php } ?>
-                      <!-- timeline item -->
-                      <li>
-                        <i class="fa fa-user bg-info"></i>
 
-                        <div class="timeline-item">
-                          <span class="time"><i class="fa fa-clock-o"></i> 5 mins ago</span>
-
-                          <h3 class="timeline-header no-border"><a href="#">Sarah Young</a> accepted your friend request
-                          </h3>
-                        </div>
-                      </li>
-                      <!-- END timeline item -->
-                      <!-- timeline item -->
-                      <li>
-                        <i class="fa fa-comments bg-warning"></i>
-
-                        <div class="timeline-item">
-                          <span class="time"><i class="fa fa-clock-o"></i> 27 mins ago</span>
-
-                          <h3 class="timeline-header"><a href="#">Jay White</a> commented on your post</h3>
-
-                          <div class="timeline-body">
-                            Take me to your leader!
-                            Switzerland is small and neutral!
-                            We are more like Germany, ambitious and misunderstood!
-                          </div>
-                          <div class="timeline-footer">
-                            <a href="#" class="btn btn-warning btn-flat btn-sm">View comment</a>
-                          </div>
-                        </div>
-                      </li>
-                      <!-- END timeline item -->
-                      <!-- timeline time label -->
-                      <li class="time-label">
-                        <span class="bg-success">
-                          3 Jan. 2014
-                        </span>
-                      </li>
-                      <!-- /.timeline-label -->
-                      <!-- timeline item -->
-                      <li>
-                        <i class="fa fa-camera bg-purple"></i>
-
-                        <div class="timeline-item">
-                          <span class="time"><i class="fa fa-clock-o"></i> 2 days ago</span>
-
-                          <h3 class="timeline-header"><a href="#">Mina Lee</a> uploaded new photos</h3>
-
-                          <div class="timeline-body">
-                            <img src="http://placehold.it/150x100" alt="..." class="margin">
-                            <img src="http://placehold.it/150x100" alt="..." class="margin">
-                            <img src="http://placehold.it/150x100" alt="..." class="margin">
-                            <img src="http://placehold.it/150x100" alt="..." class="margin">
-                          </div>
-                        </div>
-                      </li>
+                     
                       <!-- END timeline item -->
                       <li>
-                        <i class="fa fa-clock-o bg-gray"></i>
+                        <i class="fa fa-flag-checkered bg-gray"></i>
                       </li>
                     </ul><br>
       </div>    
