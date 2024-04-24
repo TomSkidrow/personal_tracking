@@ -8,8 +8,8 @@ if (isset($_POST['submit'])) {
     if (!$check_username->num_rows) {
         $hashed = password_hash($_POST['password'], PASSWORD_DEFAULT);
         $sql = "INSERT INTO `tb_user` (`names`, `emp_id`,`username`, `password`, `status`, `last_login`, `updated_at`, `created_at`) 
-                    VALUES ('" . $_POST['first_name'] . "', 
-                            '" . $_POST['last_name'] . "',
+                    VALUES ('" . $_POST['names'] . "', 
+                            '" . $_POST['emp_id'] . "',
                             '" . $_POST['username'] . "', 
                             '" . $hashed . "', 
                             '" . $_POST['status'] . "',

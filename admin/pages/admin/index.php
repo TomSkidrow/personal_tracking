@@ -73,7 +73,7 @@ $result = $conn->query($sql);
             <tr>
               <th>No.</th>
               <th>Username</th>
-              <th>FirstName</th>
+              <th>Name</th>
               
               <th>Permission</th>
               <th>Edit</th>

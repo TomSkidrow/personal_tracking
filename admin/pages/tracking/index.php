@@ -89,6 +89,7 @@ $result = $conn->query($sql);
               <th>ประเภท</th>
               <th>วันที่-เวลา</th>
               <th></th>
+              
             </tr>
             </thead>
             <tbody>
@@ -107,11 +108,15 @@ $result = $conn->query($sql);
                 <td>
                   <a href="form-edit.php?id=<?php echo $row['req_id']; ?>" class="btn btn-sm btn-warning text-white">
                     <i class="fas fa-edit"></i>
-                  </a> 
+                  </a>&nbsp; 
                   <a href="#" onclick="deleteItem(<?php echo $row['req_id']; ?>);" class="btn btn-sm btn-danger">
                     <i class="fas fa-trash-alt"></i>
+                  </a>&nbsp;
+                  <a href="#" onclick="closeItem(<?php echo $row['req_id']; ?>);" class="btn btn-sm btn-success">
+                    <i class="fas fa-check"></i>
                   </a>
                 </td>
+                
               </tr>
             <?php } ?>
             </tbody>
@@ -171,24 +176,13 @@ $result = $conn->query($sql);
     }
   };
 
-  $('.toggle-event').change(function(){
-    $.ajax({
-      method: "POST",
-      url: "active.php",
-      data: { 
-        id: $(this).data('id'), 
-        value: $(this).is(':checked') 
-      }
-    })
-    .done(function( resp, status, xhr) {
-      setTimeout(() => {
-        alert(status)
-      }, 300);
-    })
-    .fail(function ( xhr, status, error) { 
-      alert(status +' '+ error)
-    })
-  })
+  function closeItem (id) { 
+    if( confirm('ต้องการปิดงาน คำร้องนี้หรือไม่?') == true){
+      window.location=`close.php?id=${id}`;
+      // window.location='delete.php?id='+id;
+    }
+  };
+
 
 </script>
 

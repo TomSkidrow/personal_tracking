@@ -92,7 +92,7 @@
     <!-- Main content -->
     <section class="content">
       <div class="card card-primary">
-
+    
         <!-- /.card-header -->
         <!-- form start -->
         <form action="create.php" method="post" enctype="multipart/form-data">

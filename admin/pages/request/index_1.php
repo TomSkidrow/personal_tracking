@@ -1,6 +1,6 @@
 <?php 
 include_once('../authen.php'); 
-$sql = "SELECT * FROM articles ORDER BY id DESC";
+$sql = "SELECT * FROM tb_employee";
 $result = $conn->query($sql);
 ?>
 <!DOCTYPE html>
@@ -50,71 +50,17 @@ $result = $conn->query($sql);
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Articles Management</h1>
+            <h1>Request Management</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="../dashboard">Dashboard</a></li>
-              <li class="breadcrumb-item active">Articles Management</li>
+              <li class="breadcrumb-item active">Request Management</li>
             </ol>
           </div>
         </div>
       </div><!-- /.container-fluid -->
     </section>
-
-    <?php
-// Thai month names
-$thai_month_names = array(
-    '01' => 'มกราคม',
-    '02' => 'กุมภาพันธ์',
-    '03' => 'มีนาคม',
-    '04' => 'เมษายน',
-    '05' => 'พฤษภาคม',
-    '06' => 'มิถุนายน',
-    '07' => 'กรกฎาคม',
-    '08' => 'สิงหาคม',
-    '09' => 'กันยายน',
-    '10' => 'ตุลาคม',
-    '11' => 'พฤศจิกายน',
-    '12' => 'ธันวาคม',
-);
-
-// Thai numerals
-$thai_numerals = array('๐','๑','๒','๓','๔','๕','๖','๗','๘','๙');
-
-// Function to format Unix timestamp to Thai datetime
-function format_thai_datetime($timestamp) {
-    global $thai_month_names, $thai_numerals;
-    
-    // Create a DateTime object
-    //$date = new DateTime();
-    //$date->setTimestamp($timestamp);
-
-    // Format the datetime into Thai language
-    $day =  $date->format('d');
-    $month = isset($thai_month_names[$date->format('m')]) ? $thai_month_names[$date->format('m')] : '';
-    $year =  $date->format('Y');
-    $time = $date->format('H:i:s');
-
-    // Construct the Thai datetime string
-    $thai_datetime = "$day $month $year, เวลา $time น.";
-
-    return $thai_datetime;
-}
-
-// Example usage
-$timestamp = time(); // Current timestamp
-$thai_datetime = format_thai_datetime($timestamp);
-echo $thai_datetime;
-?>
-
-
-
-
-
-
-
-
 
     <!-- Main content -->
     <section class="content">
@@ -122,8 +68,8 @@ echo $thai_datetime;
       <!-- Default box -->
       <div class="card">
         <div class="card-header">
-          <h3 class="card-title d-inline-block">Contents List</h3>
-          <a href="form-create.php" class="btn btn-primary float-right ">Add Articles +</a href="">
+          <h3 class="card-title d-inline-block">พนักงาน-ลูกจ้าง ทั้งหมด</h3>
+          
         </div>
         <!-- /.card-header -->
         <div class="card-body">
@@ -131,12 +77,12 @@ echo $thai_datetime;
             <thead>
             <tr>
               <th>No.</th>
-              <th>Image</th>
-              <th>Subject</th>
-              <th>Subtitle</th>
-              <th>Status</th>
-              <th>Updated</th>
-              <th>Action</th>
+              <th>รหัส</th>
+              <th>ชื่อ-นาสกุล</th>
+              <th>ตำแหน่ง</th>
+              <th>สถานะ</th>
+              <th>สังกัด</th>
+              <th></th>
             </tr>
             </thead>
             <tbody>
@@ -147,18 +93,15 @@ echo $thai_datetime;
             ?>
               <tr>
                 <td><?php echo $num; ?></td>
-                <td><img class="img-fluid d-block mx-auto" src="../../../assets/images/blog/<?php echo $row['image']; ?>" width="150px" alt=""></td>
-                <td><?php echo $row['subject']; ?></td>
-                <td><?php echo $row['sub_title']; ?></td>
-                <td><input class="toggle-event" data-id="<?php echo $row['id']; ?>" type="checkbox" name="status" <?php echo $row['status'] == 'true' ? 'checked': ''; ?> data-toggle="toggle" data-on="Active" data-off="Block" data-onstyle="success" data-style="ios"></td>
-                <td><?php echo format_thai_datetime($row['updated_at']); ?></td>
+                <td><?php echo $row['emp_id']; ?></td>
+                <td><?php echo $row['names']; ?></td>
+                <td><?php echo $row['position']; ?></td>
+                <td><?php echo $row['emp_type']; ?></td>
+                <td><?php echo $row['office']; ?></td>
                 <td>
                   <a href="form-edit.php?id=<?php echo $row['id']; ?>" class="btn btn-sm btn-warning text-white">
                     <i class="fas fa-edit"></i>
                   </a> 
-                  <a href="#" onclick="deleteItem(<?php echo $row['id']; ?>);" class="btn btn-sm btn-danger">
-                    <i class="fas fa-trash-alt"></i>
-                  </a>
                 </td>
               </tr>
             <?php } ?>
@@ -173,9 +116,6 @@ echo $thai_datetime;
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-
-
-
 
   <!-- footer -->
   <?php include_once('../includes/footer.php') ?>
@@ -199,7 +139,7 @@ echo $thai_datetime;
 <script src="https://adminlte.io/themes/AdminLTE/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="../../plugins/datatables/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"></script>
-<script src="https://cdn.datatables.net/plug-ins/1.10.19/sorting/datetime-moment.js"></script>
+
 <!-- bootstrap-toggle -->
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 

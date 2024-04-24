@@ -17,7 +17,7 @@
                         ON a.id = b.request_id
                         INNER JOIN tb_status c 
                         ON b.status_id = c.id 
-                              WHERE b.request_id = '".$_GET['id']."' ORDER BY b.id ASC ";
+                              WHERE b.request_id = '".$_GET['id']."' AND b.active = 'true' ORDER BY b.id ASC ";
   $result_tracking = $conn->query($sql_tracking); 
 ?>
 <!DOCTYPE html>

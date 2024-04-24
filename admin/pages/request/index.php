@@ -1,14 +1,13 @@
 <?php 
 include_once('../authen.php'); 
-$sql = "SELECT * FROM tb_employee";
-$result = $conn->query($sql);
+
 ?>
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Articles Management</title>
+  <title>Request Management</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Favicons -->
@@ -68,45 +67,63 @@ $result = $conn->query($sql);
       <!-- Default box -->
       <div class="card">
         <div class="card-header">
-          <h3 class="card-title d-inline-block">พนักงาน-ลูกจ้าง ทั้งหมด</h3>
+          <h3 class="card-title d-inline-block">ข้อมูลพนักงาน-ลูกจ้าง ทั้งหมด</h3>
           
         </div>
         <!-- /.card-header -->
         <div class="card-body">
-          <table id="dataTable" class="table table-bordered table-striped">
-            <thead>
-            <tr>
-              <th>No.</th>
-              <th>รหัส</th>
-              <th>ชื่อ-นาสกุล</th>
-              <th>ตำแหน่ง</th>
-              <th>สถานะ</th>
-              <th>สังกัด</th>
-              <th></th>
-            </tr>
-            </thead>
-            <tbody>
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <h2 class="text-center display-4"></h2>
+            <div class="row">
+                <div class="col-md-8 offset-md-2">
+                    <form method="GET" action="index.php">
+                        <div class="input-group">
+                            <input type="search" id="search" name="search" class="form-control form-control-lg" placeholder="ค้นหาจาก รหัสพนักงาน หรือ ชื่อ-นามสกุล">
+                            <div class="input-group-append">
+                                <button type="submit" value="Search" class="btn btn-lg btn-default">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
             <?php 
-              $num = 0;
-              while($row = $result->fetch_assoc()){
-                $num++;
-            ?>
-              <tr>
-                <td><?php echo $num; ?></td>
-                <td><?php echo $row['emp_id']; ?></td>
-                <td><?php echo $row['names']; ?></td>
-                <td><?php echo $row['position']; ?></td>
-                <td><?php echo $row['emp_type']; ?></td>
-                <td><?php echo $row['office']; ?></td>
-                <td>
-                  <a href="form-edit.php?id=<?php echo $row['id']; ?>" class="btn btn-sm btn-warning text-white">
+
+if(isset($_GET['search']) && !empty($_GET['search'])) {
+  $searchTerm = $_GET['search'];
+  $sql = "SELECT * FROM tb_employee WHERE emp_id LIKE '%$searchTerm%' OR names LIKE '%$searchTerm%'";
+  $result = $conn->query($sql);
+
+                
+                while($row = $result->fetch_assoc()){
+
+        ?>
+            <div class="row mt-3">
+                <div class="col-md-10 offset-md-1">
+                    <div class="list-group">
+                        <div class="list-group-item">
+                            <div class="row">
+                                <div class="col px-4">
+                                    <div>
+                                        <div class="float-right">                  <a href="form-edit.php?id=<?php echo $row['id']; ?>" class="btn btn-sm btn-warning text-white">
                     <i class="fas fa-edit"></i>
-                  </a> 
-                </td>
-              </tr>
-            <?php } ?>
-            </tbody>
-          </table>
+                  </a> </div>
+                                        <h4><?php echo $row['emp_id']; ?></h4>
+                                        <p class="mb-0"><?php echo $row['names']; ?> &nbsp; <?php echo $row['position']; ?> &nbsp; <?php echo $row['office']; ?></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <?php   }  } ?>
+        </div>
+    </section>
         </div>
         <!-- /.card-body -->
       </div>
