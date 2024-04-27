@@ -91,7 +91,7 @@
 <ul class="timeline timeline-inverse">
 
               <!-- timeline time label -->
-              <li class="time-label">
+              <li class="time-label">&nbsp;
                 <span class="bg-primary">
                 <?php echo date("d/m/Y", strtotime($row['created_at'])); ?>
                 </span>
@@ -136,7 +136,7 @@
                   $num++;
         ?>
                       <!-- timeline time label -->
-                      <li class="time-label">
+                      <li class="time-label">&nbsp;
                         <span class="bg-success">
                         <?php echo date("d/m/Y", strtotime($row['created_at'])); ?>
                         </span>
