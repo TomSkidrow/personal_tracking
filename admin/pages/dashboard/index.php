@@ -2,11 +2,11 @@
 include_once('../authen.php');
 $emp_id = $_SESSION['emp_id']; 
 
-$type_count1 = "SELECT * FROM tb_request WHERE created_by = ".$emp_id." AND req_type_id = 1 ";
+$type_count1 = "SELECT * FROM tb_request WHERE created_by = ".$emp_id." AND req_type_id = 1 AND is_close = 'NO' ";
 $result_type_count1 = $conn->query($type_count1);
-$type_count2 = "SELECT * FROM tb_request WHERE created_by = ".$emp_id." AND req_type_id = 2 ";
+$type_count2 = "SELECT * FROM tb_request WHERE created_by = ".$emp_id." AND req_type_id = 2 AND is_close = 'NO' ";
 $result_type_count2 = $conn->query($type_count2);
-$type_count3 = "SELECT * FROM tb_request WHERE created_by = ".$emp_id." AND req_type_id = 3 ";
+$type_count3 = "SELECT * FROM tb_request WHERE created_by = ".$emp_id." AND req_type_id = 3 AND is_close = 'NO'";
 $result_type_count3 = $conn->query($type_count3);
 $close_count = "SELECT * FROM tb_request WHERE created_by = ".$emp_id." AND is_close = 'YES' ";
 $result_close_count = $conn->query($close_count);
