@@ -38,19 +38,19 @@ try {
                     $position      = $results['GetEmployeeInfoByEmployeeIdResult']['ResultObject']['Position'];
                     echo json_encode(['status' => 'ok', 'username' => $username, 'first_name' => $namef, 'last_name' => $namel, 'position' => $position, 'department' => $department, 'ba_name' => $baname]);
                 } else {
-                    echo json_encode(['status' => 'not', 'message' => 'incorect']);
+                    echo json_encode(['status' => 'not', 'message' => 'incorect'],JSON_UNESCAPED_UNICODE);
                 }
             } else {
-                echo json_encode(['status' => 'not', 'message' => 'notconnectIDM']);
+                echo json_encode(['status' => 'not', 'message' => 'notconnectIDM'],JSON_UNESCAPED_UNICODE);
             }
         } else {
-            echo json_encode(['status' => 'not', 'message' => 'notconnectIDM']);
+            echo json_encode(['status' => 'not', 'message' => 'notconnectIDM'],JSON_UNESCAPED_UNICODE);
         }
     } else {
-        echo json_encode(['status' => 'not', 'message' => 'steperor']);
+        echo json_encode(['status' => 'not', 'message' => 'steperor'],JSON_UNESCAPED_UNICODE);
     }
 } catch (SoapFault $e) {
-    echo json_encode(['status' => 'not', 'message' => 'steperor']);
+    echo json_encode(['status' => 'not', 'message' => 'steperor'],JSON_UNESCAPED_UNICODE);
     //$output[] = "step ERROR !";
     // print_r($e);
 }
