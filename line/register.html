@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="shortcut icon" href="img/customer-service.ico" />
+  <meta charset="utf-8" />
+  <meta name="author" content="Muhamad Nauval Azhar" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="This is a login page template based on Bootstrap 5" />
+  <title>ระบบลงทะเบียนผู้ใช้งาน</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous" />
+  <link href='https://fonts.googleapis.com/css?family=Kanit:400,300&subset=thai,latin' rel='stylesheet' type='text/css'>
+</head>
+<style>
+  body {
+    font-family: 'Kanit', sans-serif;
+  }
+
+  h4 {
+    color: rgba(132, 41, 234, 255);
+  }
+  input::placeholder {
+  font-size: 0.9em;
+  font-family: 'Kanit', sans-serif;
+}
+</style>
+
+<body>
+  <section class="h-100">
+    <div class="container h-100">
+      <div class="row justify-content-sm-center h-100">
+        <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-7 col-sm-9">
+          <div class="text-center my-5">
+            <img src="../assets/images/hr-manager.png" alt="logo" width="100" />
+          </div>
+          <div class="text-center my-1">
+            <h4>HR NE2</h4>
+          </div>
+          <div class="shadow-none  p-1 mb-6 rounded">
+            <div class="card-body p-4">
+              <!-- <h1 class="fs-4 card-title fw-bold mb-4">ลงทะเบียนใช้งานระบบ</h1> -->
+              <div class="mb-3">
+                <label class="mb-2 text-muted" for="name"><b>รหัสพนักงาน</b></label>
+                <input type="text" class="form-control" name="username" placeholder="รหัสพนักงาน" id="username"
+                  required autofocus autocomplete="off"
+                />
+                <div class="invalid-feedback">ระบุรหัสพนักงาน</div>
+
+              </div>
+              <div class="mb-3">
+                <label class="mb-2 text-muted" for="name"><b>รหัสผ่าน</b></label>
+                <input type="password" class="form-control" name="password"  id="password" required placeholder="รหัสผ่านใช้งานเครื่องคอมพิวเตอร์"
+                  autocomplete="off"
+                   />
+              </div>
+              <!-- <input type="hidden" id="userId" name="userId" /> -->
+              <div class="col-12 p-0">
+                <button style="background-color:#994ad6;color:white;" type="button" class="btn btn-block w-100"
+                  name="btn-register" id="btn-register">
+                  เข้าสู่ระบบ
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script src="https://static.line-scdn.net/liff/edge/versions/2.19.0/sdk.js"></script>
+</body>
+
+</html>
+<script src="../assets/js/login.js"></script>
+<script src="../assets/js/sweetalert2v10.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  $(document).ready(function () {
+
+    // function runApp(us) {
+    //   liff
+    //     .getProfile()
+    //     .then((profile) => {
+          $("#btn-register").click(function () {
+            //const userIDS = profile.userId;
+            //const displayName = profile.displayName;
+            var username = $("#username").val();
+            var password = $("#password").val();
+            //var userID = userIDS;
+            if (username != "") {
+              if (!username.match(/^\d+/)) {
+                Swal.fire({
+                  icon: "warning",
+                  title: "ระบุเป็นตัวเลขเท่านั้น",
+                });
+              } else {
+                $.ajax({
+                  url: "../service/login-idm.php",
+                  method: "POST",
+                  data: {
+                    username: username,
+                    password: password,
+                    //userID: userID,
+                    //displayName: displayName,
+                  },
+                  success: function (data) {
+                    //alert(data);
+                    console.log(data.status)
+                    if (data.status == "not" && data.message == "incorect") {
+                      Swal.fire({
+                        icon: "warning",
+                        title: "รหัสพนักงานหรือรหัสผ่านไม่ถูกต้อง",
+                      });
+                    }
+                    else if (data.status  == "not" && data.message =="notconnectIDM") {
+                      Swal.fire({
+                        icon: "warning",
+                        title: "ไม่สามารถติดต่อกับระบบ IDM ได้",
+                      });
+                    }else if (data.status  = "ok") {
+                      $("#verticalycentered").hide();
+                      Swal.fire({
+                        icon: "success",
+                        title: "เข้าสู่ระบบสำเร็จ",
+                        // text: response.message,
+                        showCancelButton: false,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "ตกลง",
+                      }).then((response) => {
+                        if (response.isConfirmed) {
+                          window.location = "https://liff.line.me/2004718475-W01kZwKa";
+                        }
+                      });
+                      localStorage.setItem("username", data.username);
+                      localStorage.setItem("first_name", data.first_name);
+                      localStorage.setItem("last_name", data.last_name);
+                      localStorage.setItem("position", data.position);
+                      localStorage.setItem("department", data.department);
+                      localStorage.setItem("ba_name", data.ba_name);
+                    }
+                  },
+                });
+              }
+            } else {
+              Swal.fire({
+                icon: "warning",
+                title: "กรุณาระบุรหัสพนักงาน!",
+              });
+            }
+          });
+    //     })
+    //     .catch((err) => console.error(err));
+    // }
+    // liff.init(
+    //   { liffId: "1656955969-AndrXvND" },
+    //   () => {
+    //     if (liff.isLoggedIn()) {
+    //       runApp();
+    //     } else {
+    //       liff.login();
+    //     }
+    //   },
+    //   (err) => console.error(err.code, error.message)
+    // );
+
+
+
+  });
+</script>
