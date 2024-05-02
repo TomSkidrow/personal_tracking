@@ -1,33 +1,80 @@
 <?php 
   session_start();
   require_once('../php/connect.php');
-  if (isset($_POST['submit'])) {
-    $username = $conn->real_escape_string($_POST['username']);
-    $password = $conn->real_escape_string($_POST['password']);
 
-    $sql = "SELECT * FROM `tb_user` WHERE `username` = '".$username."' ";
-    $result = $conn->query($sql);
-    $row = $result->fetch_assoc();
+  try {
+    if (isset($_POST['username'])) {
+        $username = $conn->real_escape_string($_POST['username']);
+        $password = $conn->real_escape_string($_POST['password']);
+        require_once '../lib/idm-service.php';
+        $service     = new IDMService();
+        $authenKey   = "3a243291-44d0-4171-8b17-347cfc1472ea";
+        $loginRsults = $service->login($authenKey, $username, $password);
 
-    if( !empty($row) && password_verify($password, $row['password'] )){
-      $_SESSION['authen_id'] = $row['id'];
-      $_SESSION['names'] = $row['names'];
-      $_SESSION['emp_id'] = $row['emp_id'];
-      $_SESSION['status'] = $row['status'];
-      $_SESSION['last_login'] = $row['last_login'];
+        if (!isset($loginRsults['Status'])) {
 
-      $update = "UPDATE `tb_user` SET `last_login` = '".date("Y-m-d H:i:s")."' WHERE `id` = '".$row['id']."' ";
-      $result_update = $conn->query($update);
+            $ResponseCode = $loginRsults['LoginResult']['ResponseCode'];
+            $ResponseMsg  = $loginRsults['LoginResult']['ResponseMsg'];
+            $UserId       = $loginRsults['LoginResult']['ResultObject']['UserId'];
+            if ($ResponseMsg != "") {
+                if ($ResponseMsg == "Success" and $ResponseCode == "WSV0000") {
 
-      if ($result_update) {
-        header('Location: pages/dashboard');
-      } else {
-        echo '<script> alert("Error!!!") </script>';
+                    $empAuthenKey = "93567815-dfbb-4727-b4da-ce42c046bfca";
+                    $results      = $service->getEmployeeInfoByEmployeeId($empAuthenKey, $username);
+
+                    $titlefullname = $results['GetEmployeeInfoByEmployeeIdResult']['ResultObject']['TitleFullName'];
+                    $namef         = $results['GetEmployeeInfoByEmployeeIdResult']['ResultObject']['FirstName'];
+                    $namel         = $results['GetEmployeeInfoByEmployeeIdResult']['ResultObject']['LastName'];
+                    $baname        = $results['GetEmployeeInfoByEmployeeIdResult']['ResultObject']['BaName'];
+                    $department    = $results['GetEmployeeInfoByEmployeeIdResult']['ResultObject']['DepartmentFullName'];
+                    $position      = $results['GetEmployeeInfoByEmployeeIdResult']['ResultObject']['Position'];
+                    echo json_encode(['status' => 'ok', 'username' => $username, 'first_name' => $namef, 'last_name' => $namel, 'position' => $position, 'department' => $department, 'ba_name' => $baname]);
+                    $sql = "SELECT * FROM `tb_user` WHERE `username` = '".$username."' ";
+                    $result = $conn->query($sql);
+                    $row = $result->fetch_assoc();
+                    $_SESSION['authen_id'] = $row['id'];
+                    $_SESSION['names'] = $row['names'];
+                    $_SESSION['emp_id'] = $row['emp_id'];
+                    $_SESSION['status'] = $row['status'];
+                    $_SESSION['last_login'] = $row['last_login'];
+
+                    $update = "UPDATE `tb_user` SET `last_login` = '".date("Y-m-d H:i:s")."' WHERE `id` = '".$row['id']."' ";
+                    $result_update = $conn->query($update);
+
+                      if ($result_update) {
+                               header('Location: pages/dashboard');
+                             } else {
+                               echo '<script> alert("Error!!!") </script>';
+                             
+                           } 
+
+
+                  } else {
+                    echo '<script> alert("รหัสผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง") </script>';
+               }
+           } else {
+            echo '<script> alert("ไม่สามารถติดต่อกับระบบ IDM ได้") </script>';
+            }
+
+
+        
+        }
       }
-    } else {
-      echo '<script> alert("ชื่อผู้ใช้ และ รหัสผ่านไม่ถูกต้อง") </script>';
-    }
-  }
+    
+                 
+//         } else {
+//             echo json_encode(['status' => 'not', 'message' => 'notconnectIDM'],JSON_UNESCAPED_UNICODE);
+//         }
+//     } else {
+//         echo json_encode(['status' => 'not', 'message' => 'steperor'],JSON_UNESCAPED_UNICODE);
+//     }
+} catch (SoapFault $e) {
+//     //echo json_encode(['status' => 'not', 'message' => 'steperor'],JSON_UNESCAPED_UNICODE);
+//     //$output[] = "step ERROR !";
+//     // print_r($e);
+}
+
+
 
 ?>
 <!DOCTYPE html>
@@ -102,6 +149,8 @@
 <script src="plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+
 
 </body>
 </html>
