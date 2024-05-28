@@ -19,7 +19,7 @@ try {
     $row_lineID = $resultLindId->fetch_assoc();
     $username = $row_lineID['username'];
 
-    $sqlRequest = "SELECT id,emp_id FROM tb_request WHERE emp_id = '" . $username . "'";
+    $sqlRequest = "SELECT id,emp_id FROM tb_request WHERE emp_id = '" . $username . "' ORDER BY id DESC LIMIT 0 , 1";
     $resultRequest = $conn->query($sqlRequest);
     $row_Request = $resultRequest->fetch_assoc();
     $id = $row_Request['id'];
