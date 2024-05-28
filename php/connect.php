@@ -2,7 +2,7 @@
     error_reporting(E_ALL); // เปิด Error ทั้งหมด
     //error_reporting(0); // ปิด error ในกรณีที่เราต้องการแสดง error ของเราเอง
     //เชื่อมต่อ Database
-    $conn = new mysqli('localhost','root','','personal_tracking');
+    $conn = new mysqli('localhost','root','Asd456!#!$','personal_tracking');
     // ตั้งค่าภาษา ให้รองรับภาษาไทย
     $conn->set_charset('utf8'); 
     if ($conn->connect_errno) {// เช็คว่ามีค่า error code หรือเปล่า

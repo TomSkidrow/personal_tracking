@@ -88,7 +88,9 @@ $result = $conn->query($sql);
               <th>ตำแหน่ง</th>
               <th>ประเภท</th>
               <th>วันที่-เวลา</th>
-              <th></th>
+              <th>เพิ่ม</th>
+              <th>ปิดงาน</th>
+              <th>ลบ</th>
               
             </tr>
             </thead>
@@ -108,12 +110,16 @@ $result = $conn->query($sql);
                 <td>
                   <a href="form-edit.php?id=<?php echo $row['req_id']; ?>" class="btn btn-sm btn-warning text-white">
                     <i class="fas fa-edit"></i>
-                  </a>&nbsp; 
-                  <a href="#" onclick="deleteItem(<?php echo $row['req_id']; ?>);" class="btn btn-sm btn-danger">
-                    <i class="fas fa-trash-alt"></i>
-                  </a>&nbsp;
+                  </a> 
+                </td>
+                <td>
                   <a href="#" onclick="closeItem(<?php echo $row['req_id']; ?>);" class="btn btn-sm btn-success">
                     <i class="fas fa-check"></i>
+                  </a>
+                </td>
+                <td>
+                  <a href="#" onclick="deleteItem(<?php echo $row['req_id']; ?>);" class="btn btn-sm btn-danger">
+                    <i class="fas fa-trash-alt"></i>
                   </a>
                 </td>
                 
